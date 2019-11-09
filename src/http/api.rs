@@ -1,7 +1,19 @@
-use actix_web::web;
+use std::io;
+use actix_web::{web, App, HttpServer, middleware};
 use crate::http::index;
 
-pub fn config(cfg: &mut web::ServiceConfig) {
+pub fn run(address: &str) -> io::Result<()> {
+    HttpServer::new(|| {
+        App::new()
+            .wrap(middleware::Logger::default())
+            .wrap(middleware::NormalizePath)
+            .configure(config)
+    })
+    .bind(address)?
+    .run()
+}
+
+fn config(cfg: &mut web::ServiceConfig) {
     cfg.service(
         web::scope("/v1")
             .service(web::scope("/user")
