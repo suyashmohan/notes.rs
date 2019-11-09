@@ -1,6 +1,7 @@
 use std::io;
 use actix_web::{web, App, HttpServer, middleware};
 use crate::http::index;
+use crate::http::notes;
 
 pub fn run(address: &str) -> io::Result<()> {
     HttpServer::new(|| {
@@ -21,7 +22,7 @@ fn config(cfg: &mut web::ServiceConfig) {
                 .route("/hello", web::get().to_async(index::get))
             )
             .service(web::scope("/notes")
-                .route("/", web::get().to_async(index::get))
+                .route("/", web::get().to_async(notes::create))
                 .route("/test", web::get().to_async(index::get))
             )
     );

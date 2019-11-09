@@ -1,6 +1,10 @@
 use std::{env, io};
 
+mod data;
 mod http;
+mod model;
+mod service;
+
 use http::api;
 
 fn main() -> io::Result<()> {
