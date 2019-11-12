@@ -1,13 +1,16 @@
 use std::io;
 use actix_web::{web, App, HttpServer, middleware};
+
 use crate::http::index;
 use crate::http::notes;
+use crate::Pool;
 
-pub fn run(address: &str) -> io::Result<()> {
-    HttpServer::new(|| {
+pub fn run(address: &str, pool: Pool) -> io::Result<()> {
+    HttpServer::new(move || {
         App::new()
             .wrap(middleware::Logger::default())
             .wrap(middleware::NormalizePath)
+            .data(pool.clone())
             .configure(config)
     })
     .bind(address)?

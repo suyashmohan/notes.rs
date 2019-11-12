@@ -1,6 +1,7 @@
 use crate::data;
 use crate::model;
+use crate::Pool;
 
-pub fn create(title: &str, text: &str) -> model::notes::Note {
-    data::notes::create(title.to_string(), text.to_string())
+pub fn create<'a>(pool: &Pool, title: &'a str, text: &'a str) -> model::notes::Note<'a> {
+    data::notes::create(&pool, title, text)
 }
