@@ -12,7 +12,7 @@ pub struct Note {
     pub updated_at: NaiveDateTime,
 }
 
-#[derive(Debug, Insertable)]
+#[derive(Debug, Clone, Insertable)]
 #[table_name="notes"]
 pub struct NewNote {
     pub id: Uuid,
