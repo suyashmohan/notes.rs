@@ -1,9 +1,9 @@
 use diesel::prelude::*;
 use crate::model::notes;
-use crate::Pool;
+use crate::DBPool;
 use crate::schema;
 
-pub fn create<'a>(pool: &Pool, title: &'a str, body: &'a str) -> notes::Note<'a> {
+pub fn create(pool: &DBPool, title: String, body: String) -> notes::Note {
     let new_note = notes::Note {
         title, body
     };

@@ -13,9 +13,9 @@ mod schema;
 
 use http::api;
 
-pub(crate) type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
+pub(crate) type DBPool = r2d2::Pool<ConnectionManager<PgConnection>>;
 
-fn setup_db(address: &str) -> Pool{
+fn setup_db(address: &str) -> DBPool{
     let manager = ConnectionManager::<PgConnection>::new(address);
     r2d2::Pool::builder()
         .build(manager)

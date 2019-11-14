@@ -3,13 +3,14 @@ use actix_web::{web, App, HttpServer, middleware};
 
 use crate::http::index;
 use crate::http::notes;
-use crate::Pool;
+use crate::DBPool;
 
-pub fn run(address: &str, pool: Pool) -> io::Result<()> {
+pub fn run(address: &str, pool: DBPool) -> io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .wrap(middleware::Logger::default())
             .wrap(middleware::NormalizePath)
+            .data(web::JsonConfig::default().limit(4096))
             .data(pool.clone())
             .configure(config)
     })
@@ -25,7 +26,7 @@ fn config(cfg: &mut web::ServiceConfig) {
                 .route("/hello", web::get().to_async(index::get))
             )
             .service(web::scope("/notes")
-                .route("/", web::get().to_async(notes::create))
+                .route("/", web::post().to_async(notes::create))
                 .route("/test", web::get().to_async(index::get))
             )
     );
