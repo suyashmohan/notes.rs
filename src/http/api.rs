@@ -1,7 +1,6 @@
 use std::io;
 use actix_web::{web, App, HttpServer, middleware};
 
-use crate::http::index;
 use crate::http::notes;
 use crate::DBPool;
 
@@ -21,13 +20,9 @@ pub fn run(address: &str, pool: DBPool) -> io::Result<()> {
 fn config(cfg: &mut web::ServiceConfig) {
     cfg.service(
         web::scope("/v1")
-            .service(web::scope("/user")
-                .route("/", web::get().to_async(index::get))
-                .route("/hello", web::get().to_async(index::get))
-            )
             .service(web::scope("/notes")
                 .route("/", web::post().to_async(notes::create))
-                .route("/test", web::get().to_async(index::get))
+                .route("/{id}", web::get().to_async(notes::get))
             )
     );
 }
