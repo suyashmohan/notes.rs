@@ -8,7 +8,6 @@ pub fn run(address: &str, pool: DBPool) -> io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .wrap(middleware::Logger::default())
-            .wrap(middleware::NormalizePath)
             .data(web::JsonConfig::default().limit(4096))
             .data(pool.clone())
             .configure(config)
@@ -21,7 +20,7 @@ fn config(cfg: &mut web::ServiceConfig) {
     cfg.service(
         web::scope("/v1")
             .service(web::scope("/notes")
-                .route("/", web::post().to_async(notes::create))
+                .route("", web::post().to_async(notes::create))
                 .route("/{id}", web::get().to_async(notes::get))
             )
     );

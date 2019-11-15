@@ -13,6 +13,6 @@ pub fn create(pool: &DBPool, title: String, body: String) -> notes::Note{
     data::notes::create(&pool, new_note.clone()).expect("Unable to create note")
 }
 
-pub fn get(pool: &DBPool, id: Uuid) -> notes::Note {
-    data::notes::get(pool, id).expect("Unable to find note")
+pub fn get(pool: &DBPool, id: Uuid) -> Option<notes::Note> {
+    data::notes::get(pool, id).ok()
 }
