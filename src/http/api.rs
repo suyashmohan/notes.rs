@@ -22,6 +22,7 @@ fn config(cfg: &mut web::ServiceConfig) {
             .service(web::scope("/notes")
                 .route("", web::post().to_async(notes::create))
                 .route("/{id}", web::get().to_async(notes::get))
+                .route("/{id}", web::post().to_async(notes::update))
             )
     );
 }

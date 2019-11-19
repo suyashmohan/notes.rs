@@ -33,3 +33,8 @@ pub fn get(note_id: web::Path<NoteID>, pool: web::Data<DBPool>) -> impl Future<I
         None => ok(HttpResponse::NotFound().json(ErrorBody { error: "Unable to find given ID".to_string()}))
     }
 }
+
+pub fn update(note_id: web::Path<NoteID>, note_data: web::Json<CreateNoteParams>, pool: web::Data<DBPool>) -> impl Future<Item = HttpResponse, Error = Error> {
+    let note = notes::update(&pool, note_id.id, note_data.title.clone(), note_data.body.clone());
+    ok(HttpResponse::Ok().json(note))
+}

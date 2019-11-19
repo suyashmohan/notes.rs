@@ -21,3 +21,17 @@ pub fn get(pool: &DBPool, id: Uuid) -> QueryResult<notes::Note> {
         .find(id)
         .get_result(conn)
 }
+
+pub fn update(pool: &DBPool, update_note: notes::NewNote) -> QueryResult<notes::Note> {
+    let conn: &PgConnection = &pool.get().unwrap();
+
+    let target = schema::notes::dsl::notes
+        .find(update_note.id);
+
+    diesel::update(target)
+        .set((
+            schema::notes::dsl::title.eq(update_note.title),
+            schema::notes::dsl::body.eq(update_note.body)
+        ))
+        .get_result::<notes::Note>(conn)
+}
