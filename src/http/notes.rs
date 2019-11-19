@@ -38,3 +38,10 @@ pub fn update(note_id: web::Path<NoteID>, note_data: web::Json<CreateNoteParams>
     let note = notes::update(&pool, note_id.id, note_data.title.clone(), note_data.body.clone());
     ok(HttpResponse::Ok().json(note))
 }
+
+pub fn delete(note_id: web::Path<NoteID>, pool: web::Data<DBPool>) -> impl Future<Item = HttpResponse, Error = Error> {
+    match notes::delete(&pool, note_id.id){
+        Some(note) => ok(HttpResponse::Ok().json(note)),
+        None => ok(HttpResponse::NotFound().json(ErrorBody { error: "Unable to find given ID".to_string()}))
+    }
+}

@@ -23,6 +23,7 @@ fn config(cfg: &mut web::ServiceConfig) {
                 .route("", web::post().to_async(notes::create))
                 .route("/{id}", web::get().to_async(notes::get))
                 .route("/{id}", web::post().to_async(notes::update))
+                .route("/{id}", web::delete().to_async(notes::delete))
             )
     );
 }

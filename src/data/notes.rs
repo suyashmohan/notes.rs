@@ -35,3 +35,13 @@ pub fn update(pool: &DBPool, update_note: notes::NewNote) -> QueryResult<notes::
         ))
         .get_result::<notes::Note>(conn)
 }
+
+pub fn delete(pool: &DBPool, id: Uuid) -> QueryResult<usize> {
+    let conn: &PgConnection = &pool.get().unwrap();
+
+    let target = schema::notes::dsl::notes
+        .find(id);
+
+    diesel::delete(target)
+        .execute(conn)
+}

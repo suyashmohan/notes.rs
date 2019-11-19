@@ -23,3 +23,7 @@ pub fn update(pool: &DBPool, id: Uuid, title: String, body: String) -> notes::No
     };
     data::notes::update(&pool, update_note.clone()).expect("Unable to update note")
 }
+
+pub fn delete(pool: &DBPool, id: Uuid) -> Option<usize> {
+    data::notes::delete(pool, id).ok()
+}

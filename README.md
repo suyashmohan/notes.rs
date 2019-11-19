@@ -26,4 +26,5 @@ curl -XPOST -H "Content-type: application/json" -d '{ "title": "test", "body": "
 
 
 ### Delete
+curl -XDELETE -H "Content-type: application/json" 'http://127.0.0.1:8080/v1/notes/0ed59767-8c7a-4f32-871f-c2084111b957' -v
 ```
